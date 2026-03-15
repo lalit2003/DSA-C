@@ -13,19 +13,20 @@ void traverse();
 void insert_beg();
 void insert_end();
 void insert_any_pos();
-int length();
+int  length();
 void delete_beg();
 void delete_end();
 void delete_specific_pos();
+void delete_as_fuck();
 
 int main(){
 	int choice;
-	
+
 	while(1){
 		printf("\n\n*******Single-LinkList-Menu*******\n");
 		printf("\n1.CREATE\n2.TRAVERSE\n3.INSERT-BEGINING\n4.INSERT-END\n5.INSER-AT-ANY-POSITION.");
 		printf("\n6.DELETE-BEGINING\n7.DELETE-END\n8.DELETE FROM SPECIFIC POSITION.\n");
-		printf("9.EXIT.\n");
+		printf("9.DELETE AS FUCK.\n10.EXIT.\n");
 		printf("\nEnter Your Choice:- ");
 		scanf("%d",&choice);
 		
@@ -62,12 +63,54 @@ int main(){
 				traverse();
 				break;
 			case 9:
+				delete_as_fuck();
+				traverse();
+				break;
+			case 10:
 				printf("\n********************************\n");
 				printf("Exiting From Program..\n");
 				exit(0);
 			default:
 				printf("Invalid Options...\n");
 		}
+	}
+}
+
+void delete_as_fuck(){
+	struct node *temp,*ptr;
+	int key;
+	
+	ptr = head;
+	
+	printf("Enter the key to delete:- ");
+	scanf("%d",&key);
+	
+	if(head == NULL){
+		printf("Nothing to Delete bkl...\n");
+		return;
+	}
+	
+	if(head->data == key){
+		temp = head;
+		head = head->next;
+		printf("%d is deleted..\n",temp->data);
+		free(temp);
+	}
+	else{
+		temp = head;
+		while(temp->next != NULL){
+			if(temp->next->data == key){
+				ptr = temp->next;
+				temp->next = temp->next->next;
+				printf("%d is Deleted.\n",ptr->data);
+				free(ptr);
+				break;
+			}
+			temp = temp->next;
+		}
+		
+		printf("Bhkk bkl..\n");
+		return;
 	}
 }
 
