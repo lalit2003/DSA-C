@@ -83,6 +83,13 @@ void delete_specific_pos(){
 	printf("Enter the Position to Delete:- ");
 	scanf("%d",&pos);
 	
+	if(pos ==1 && head->next == head){
+		temp = head ;
+		free(temp);
+		head = NULL;
+		return;
+	}
+	
 	if(pos == 1){
 		temp = head;
 		ptr = head;
