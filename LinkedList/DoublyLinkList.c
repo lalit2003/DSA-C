@@ -15,6 +15,8 @@ void forward_traversal();
 void backward_traversal();
 void insert_beg();
 void insert_end();
+void insert_any_position();
+void detele_beg();
 
 int main(){
 	create();
@@ -28,6 +30,98 @@ int main(){
 	insert_end();
 	forward_traversal();
 	backward_traversal();
+	
+	insert_any_position();
+	forward_traversal();
+	backward_traversal();
+	
+	delete_beg();
+	forward_traversal();
+	backward_traversal();
+}
+
+void delete_beg(){
+	struct node *temp;
+	if(head == NULL){
+		printf("List is Empty..\n");
+		return;
+	}
+	
+	temp = head;
+	
+	if(head->next == NULL){
+		printf("\nDeleted Node Data Is %d",head->data);
+		head = NULL;
+		free(temp);
+		return;
+	}
+	
+	head = head->next;
+	head->prev = NULL;
+	printf("\nDeleted Node Data Is %d ",temp->data);
+	temp->next = NULL;
+	free(temp);
+}
+
+int length(){
+	struct node *temp;
+	temp = head;
+	int counter = 0;
+	
+	while(temp->next != NULL){
+		counter++;
+		temp = temp->next;
+	}
+	return counter;
+}
+
+void insert_any_position() {
+    int pos, i;
+    struct node *newnode, *temp, *ptr;
+    int len = length();
+
+    printf("Enter The Position:- ");
+    scanf("%d", &pos);
+
+    if(pos < 1 || pos > len + 1) {
+        printf("Invalid Position..\n");
+        return;
+    }
+
+    newnode = (struct node *)malloc(sizeof(struct node));
+    if(newnode == NULL) {
+        printf("Memory Allocation Failed..\n");
+        return;
+    }
+
+    printf("Enter Data:- ");
+    scanf("%d", &newnode->data);
+
+    newnode->prev = NULL;
+    newnode->next = NULL;
+
+    if(pos == 1) {
+        newnode->next = head;
+        if(head != NULL)
+            head->prev = newnode;
+        head = newnode;
+        return;
+    }
+
+    temp = head;
+    for(i = 1; i < pos - 1; i++) {
+        temp = temp->next;
+    }
+
+    ptr = temp->next;
+    temp->next = newnode;
+    newnode->prev = temp;
+    newnode->next = ptr;
+
+    if(ptr != NULL){
+    	ptr->prev = newnode;
+	}
+
 }
 
 void insert_end(){
