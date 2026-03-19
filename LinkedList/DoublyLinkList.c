@@ -16,28 +16,150 @@ void backward_traversal();
 void insert_beg();
 void insert_end();
 void insert_any_position();
-void detele_beg();
+void delete_beg();
+void delete_end();
+void delete_specific_position();
 
 int main(){
-	create();
-	forward_traversal();
-	backward_traversal();
+	int choice;
+
+	while(1){
+		printf("\n\n*******Doubly-LinkList-Menu*******\n");
+		printf("\n1.CREATE\n2.TRAVERSE\n3.INSERT-BEGINING\n4.INSERT-END\n5.INSER-AT-ANY-POSITION.");
+		printf("\n6.DELETE-BEGINING\n7.DELETE-END\n8.DELETE FROM SPECIFIC POSITION.\n");
+		printf("9.EXIT.\n");
+		printf("\nEnter Your Choice:- ");
+		scanf("%d",&choice);
+		
+		switch(choice){
+			case 1:
+				create();
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 2:
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 3:
+				insert_beg();
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 4:
+				insert_end();
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 5:
+				insert_any_position();
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 6:
+				delete_beg();
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 7:
+				delete_end();
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 8:
+				delete_specific_position();
+				forward_traversal();
+                backward_traversal();
+				break;
+			case 9:
+				printf("\n********************************\n");
+				printf("Exiting From Program..\n");
+				exit(0);
+			default:
+				printf("Invalid Options...\n");
+		}
+	}
+}
+
+void delete_specific_position(){
+	struct node *temp,*ptr;
+	int i,pos;
+	int len = length();
+	printf("Enter The Position To Delete A NODE:- ");
+	scanf("%d",&pos);
 	
-	insert_beg();
-	forward_traversal();
-	backward_traversal();
+	if(pos > len){
+		printf("Invalid postion ..\n");
+		return;
+	}
 	
-	insert_end();
-	forward_traversal();
-	backward_traversal();
+	if(pos < 1){
+		printf("Invalid Position..\n");
+		return;
+	}
 	
-	insert_any_position();
-	forward_traversal();
-	backward_traversal();
+	if(head == NULL){
+		printf("List Is Empty Soo Nothig To delete..\n");
+		return;
+	}
 	
-	delete_beg();
-	forward_traversal();
-	backward_traversal();
+    if(pos == 1){
+        temp = head;
+        head = head->next;
+
+        if(head != NULL){
+            head->prev = NULL;
+        }
+
+        free(temp);
+        return;
+    }
+	else{
+	  temp = head;
+	  for(i=1;i<pos-1;i++){
+		  temp=temp->next;
+	    }
+	  ptr = temp->next;
+	  temp->next = ptr->next;
+	
+	  if(ptr->next != NULL){
+         ptr->next->prev = temp;
+        }
+	  free(ptr);
+	}
+}
+
+void delete_end(){
+	struct node *temp,*ptr;
+	
+	if(head == NULL){
+		printf("List IS Empty Nothing to delete..\n");
+		return;
+	}
+	
+	temp = head;
+	if(head->next == NULL){
+		head = NULL;
+		printf("%d deleted From End..\n",temp->data);
+		free(temp);
+		return;
+	}
+	else{
+		while(temp->next != NULL){
+			temp=temp->next;
+		}
+		
+		ptr = head;
+		while(ptr->next != temp){
+			ptr = ptr->next;
+		}
+		ptr->next = NULL;
+			temp->prev = NULL;
+			printf("%d Deleted Data From End..\n",temp->data);
+			free(temp);
+	}
+	
+	
 }
 
 void delete_beg(){
@@ -68,7 +190,7 @@ int length(){
 	temp = head;
 	int counter = 0;
 	
-	while(temp->next != NULL){
+	while(temp != NULL){
 		counter++;
 		temp = temp->next;
 	}
@@ -218,6 +340,7 @@ void forward_traversal(){
 void create(){
 	struct node *newnode,*temp;
 	int n,i;
+	int len = length();
 	
 	printf("Enter How Many Nodes You Want To Create:- ");
 	scanf("%d",&n);
