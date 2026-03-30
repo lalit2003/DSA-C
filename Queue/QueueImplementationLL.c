@@ -15,7 +15,7 @@ void traverse();
 void peek();
 
 int main(){
-	 int choice;
+	int choice;
 
     while(1){
     	printf("\n___QUEUE-IMPLEMENTATION-USING-LINLLIST___\n");
